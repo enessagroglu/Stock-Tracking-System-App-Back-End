@@ -1,6 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using StockTrackingSystemApp_BackEnd.Application.Interfaces.Repositories;
 using StockTrackingSystemApp_BackEnd.Domain.Entities;
 using StockTrackingSystemApp_BackEnd.Infrastructure.Data;
@@ -21,11 +19,14 @@ namespace StockTrackingSystemApp_BackEnd.Infrastructure.Repositories
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<User?> GetByIdAsync(int id)
         {
             return await _context.Users.FindAsync(id);
         }
-
+        public async Task<User?> GetByUsernameAsync(string username)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+        }
         public async Task AddAsync(User user)
         {
             await _context.Users.AddAsync(user);

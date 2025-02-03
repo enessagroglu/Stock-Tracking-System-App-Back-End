@@ -2,8 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using StockTrackingSystemApp_BackEnd.Application.Interfaces.Repositories;
 using StockTrackingSystemApp_BackEnd.Domain.Entities;
 using StockTrackingSystemApp_BackEnd.Infrastructure.Data;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace StockTrackingSystemApp_BackEnd.Infrastructure.Repositories
 {
@@ -21,7 +19,7 @@ namespace StockTrackingSystemApp_BackEnd.Infrastructure.Repositories
             return await _context.Products.ToListAsync();
         }
         
-        public async Task<Product> GetByIdAsync(int id)
+        public async Task<Product?> GetByIdAsync(int id)
         {
             return await _context.Products.FindAsync(id);
         }

@@ -1,36 +1,72 @@
 using StockTrackingSystemApp_BackEnd.Application.DTOs;
 using StockTrackingSystemApp_BackEnd.Application.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
+using StockTrackingSystemApp_BackEnd.Application.Interfaces.Repositories;
+using StockTrackingSystemApp_BackEnd.Domain.Entities;
 
 namespace StockTrackingSystemApp_BackEnd.Application.Services
 {
     public class DepotService : IDepotService
     {
-        public Task<DepotDto> CreateDepotAsync(DepotDto depotDto)
+        private readonly IDepotRepository _depotRepository;
+        public DepotService(IDepotRepository depotRepository)
         {
-            throw new System.NotImplementedException();
+            _depotRepository = depotRepository;
         }
 
-        public Task DeleteDepotAsync(int id)
+        public async Task<IEnumerable<DepotDto>> GetAllDepotsAsync()
         {
-            throw new System.NotImplementedException();
+            var depots = await _depotRepository.GetAllAsync();
+            return depots.Select(d => new DepotDto
+            {
+                Id = d.Id,
+                Name = d.Name,
+                Location = d.Location,
+                UserId = d.UserId
+            });
         }
 
-        public Task<IEnumerable<DepotDto>> GetAllDepotsAsync()
+        public async Task<DepotDto> GetDepotByIdAsync(int id)
         {
-            throw new System.NotImplementedException();
+            var depot = await _depotRepository.GetByIdAsync(id);
+            if (depot == null)
+                return null;
+            return new DepotDto
+            {
+                Id = depot.Id,
+                Name = depot.Name,
+                Location = depot.Location,
+                UserId = depot.UserId
+            };
         }
 
-        public Task<DepotDto> GetDepotByIdAsync(int id)
+        public async Task<DepotDto> CreateDepotAsync(DepotDto depotDto)
         {
-            throw new System.NotImplementedException();
+            var depot = new Depot
+            {
+                Name = depotDto.Name,
+                Location = depotDto.Location,
+                UserId = depotDto.UserId
+            };
+
+            await _depotRepository.AddAsync(depot);
+            depotDto.Id = depot.Id;
+            return depotDto;
         }
 
-        public Task UpdateDepotAsync(DepotDto depotDto)
+        public async Task UpdateDepotAsync(DepotDto depotDto)
         {
-            throw new System.NotImplementedException();
+            var depot = await _depotRepository.GetByIdAsync(depotDto.Id);
+            if (depot == null)
+                throw new Exception("Depot not found");
+            depot.Name = depotDto.Name;
+            depot.Location = depotDto.Location;
+            depot.UserId = depotDto.UserId;
+            await _depotRepository.UpdateAsync(depot);
+        }
+
+        public async Task DeleteDepotAsync(int id)
+        {
+            await _depotRepository.DeleteAsync(id);
         }
     }
 }

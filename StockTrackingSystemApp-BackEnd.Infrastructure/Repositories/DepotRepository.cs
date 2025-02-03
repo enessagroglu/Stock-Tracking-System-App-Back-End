@@ -21,7 +21,7 @@ namespace StockTrackingSystemApp_BackEnd.Infrastructure.Repositories
             return await _context.Depots.ToListAsync();
         }
 
-        public async Task<Depot> GetByIdAsync(int id)
+        public async Task<Depot?> GetByIdAsync(int id)
         {
             return await _context.Depots.FindAsync(id);
         }
