@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using StockTrackingSystemApp_BackEnd.Application.DTOs;
 using StockTrackingSystemApp_BackEnd.Application.Interfaces;
-using System.Threading.Tasks;
-
 namespace StockTrackingSystemApp_BackEnd.API.Controllers
 {
     [ApiController]

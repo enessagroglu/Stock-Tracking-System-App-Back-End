@@ -19,6 +19,10 @@ namespace StockTrackingSystemApp_BackEnd.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasColumnType("decimal(18,2)");
 
             // Ürün ve kategori ilişkisi: Bir kategori birden fazla ürüne sahip olabilir.
             modelBuilder.Entity<Product>()

@@ -35,8 +35,13 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.RoutePrefix = ""; // Swagger UI'yi root URL'e yerleştirir.
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "StockTrackingSystemApp API V1");
+    });
 }
+
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
